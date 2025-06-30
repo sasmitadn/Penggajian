@@ -2,7 +2,7 @@
     <div class="main-header-logo">
         <!-- Logo Header -->
         <div class="logo-header" data-background-color="dark">
-            <a href="index.html" class="logo">
+            <a href="#" class="logo">
                 {{-- <img src="{{ asset('img/kaiadmin/logo_light.svg') }}" alt="navbar brand" class="navbar-brand"
                     height="20" /> --}}
                 <h1 class="fs-2 text-white">Penggajian</h1>
@@ -205,7 +205,7 @@
                                             </a>
                                         @endif
                                         @if (can_access(['admin.cash_advances.create']))
-                                            <a class="col-6 col-md-4 p-0" href="#">
+                                            <a class="col-6 col-md-4 p-0" href="{{route('admin.cash_advances.index')}}">
                                                 <div class="quick-actions-item">
                                                     <div class="avatar-item bg-warning rounded-circle">
                                                         <i class="fas fa-money-bill"></i>
@@ -215,7 +215,7 @@
                                             </a>
                                         @endif
                                         @if (can_access(['admin.payrolls.create']))
-                                            <a class="col-6 col-md-4 p-0" href="#">
+                                            <a class="col-6 col-md-4 p-0" href="{{route('admin.payrolls.create')}}">
                                                 <div class="quick-actions-item">
                                                     <div class="avatar-item bg-info rounded-circle">
                                                         <i class="fas fa-dollar-sign"></i>

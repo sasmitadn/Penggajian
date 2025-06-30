@@ -117,9 +117,10 @@
                 </tbody>
             </table>
 
-            {{-- <div class="d-md-flex justify-content-between my-5">
+            <div class="d-flex justify-content-between my-5">
                 <div>
-                    <h5 class="fw-bold my-4">Hubungi Kami</h5>
+                    <p class="text-muted"><span class="fw-semibold">Terimakasih! </span> telah menjadi bagian dari Kami.</p>
+                    {{-- <h5 class="fw-bold my-4">Hubungi Kami</h5>
                     <ul class="list-unstyled">
                         <li><iconify-icon class="social-icon text-primary fs-5 me-2" icon="mdi:location"
                                 style="vertical-align:text-bottom"></iconify-icon> Indonesia, Jawa Tengah, Sukoharjo
@@ -128,24 +129,28 @@
                                 style="vertical-align:text-bottom"></iconify-icon> (510) 710-3464</li>
                         <li><iconify-icon class="social-icon text-primary fs-5 me-2" icon="ic:baseline-email"
                                 style="vertical-align:text-bottom"></iconify-icon> sm@gmail.com</li>
-                    </ul>
+                    </ul> --}}
                 </div>
-                <div>
-                    <h5 class="fw-bold my-4">Informasi Pembayaran</h5>
+                <div class="me-5">
+                    {{-- <h5 class="fw-bold my-4">Informasi Pembayaran</h5>
                     <ul class="list-unstyled">
                         <li><span class="fw-semibold">Pembayaran: </span> Tunai</li>
                         <li><span class="fw-semibold">Nama: </span> -</li>
                         <li><span class="fw-semibold">Rekening: </span> - </li>
 
-                    </ul>
+                    </ul> --}}
+                    <p>Sukoharjo, {{\Carbon\Carbon::now()->translatedFormat('j F Y')}}</p>
+                    <div style="margin-top: 10vh"></div>
+                    <hr>
+                    <pre>(                      )</pre>
                 </div>
-            </div> --}}
-
-            <div class="text-center my-5">
-                <p class="text-muted"><span class="fw-semibold">Terimakasih! </span> telah menjadi bagian dari Kami.</p>
             </div>
 
-            <div id="footer-bottom">
+            {{-- <div class="text-center my-5">
+                <p class="text-muted"><span class="fw-semibold">Terimakasih! </span> telah menjadi bagian dari Kami.</p>
+            </div> --}}
+
+            {{-- <div id="footer-bottom">
                 <div class="container border-top">
                     <div class="row mt-3">
                         <div class="col-6 copyright">
@@ -156,7 +161,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
         </div>
     </section>

@@ -89,12 +89,11 @@ class AdminController extends Controller
         $model = User::findOrFail($id);
         $model->name = $request->name;
         $model->email = $request->email;
-        $model->password = Hash::make($request->password);
         $model->address = $request->address;
         $model->phone = $request->phone;
         $model->id_category = $request->id_category ?? null;
         $model->status = $request->status;
-        if (filled($request->password)) {
+        if ($request->filled('password')) {
             $request->validate([
                 'password' => 'required|string|min:8|confirmed',
             ]);

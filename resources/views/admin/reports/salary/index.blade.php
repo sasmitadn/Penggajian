@@ -35,7 +35,7 @@
                                 <div class="ms-auto">
                                     @include('admin.reports.salary.filter')
                                 </div>
-                                <a href="{{ route('admin.reports.attendance.export') }}" class="btn btn-primary ms-2">
+                                <a href="{{ route('admin.reports.salary.export', request()->query()) }}" class="btn btn-primary ms-2">
                                     <i class="fa fa-file-excel"></i>
                                 </a>
                             </div>
@@ -45,6 +45,7 @@
                                 <table id="basic-datatables" class="display table table-striped table-hover">
                                     <thead>
                                         <tr>
+                                            <th>Tanggal</th>
                                             <th>Nama</th>
                                             <th>Jabatan</th>
                                             <th>Kehadiran</th>
@@ -55,7 +56,7 @@
                                             <th>Total Jam Lembur</th>
                                             <th>Jumlah Gaji</th>
                                             <th>Jumlah Lembur</th>
-                                            <th>Jumlah Potongan</th>
+                                            <th>Pengurangan Pinjaman</th>
                                             <th>Total Gaji</th>
                                             <th>Menu</th>
                                         </tr>
@@ -64,19 +65,20 @@
                                         @if ($data->count() > 0)
                                             @foreach ($data as $item)
                                                 <tr>
+                                                    <td class="text-nowrap">{{ parseDate($item->start_date) . ' - ' . parseDate($item->end_date) }}</td>
                                                     <td>{{ $item->user?->name }}</td>
                                                     <td>{{ $item->user?->category?->name }}</td>
                                                     <td class="text-nowrap">
-                                                        {{ $item->total_present . ' / ' . number_format($item->total_days, 0) . ' Hari' }}
+                                                        {{ $item->total_present }}
                                                     </td>
                                                     <td class="text-nowrap">
-                                                        {{ $item->total_late . ' / ' . number_format($item->total_days, 0) . ' Hari' }}
+                                                        {{ $item->total_late }}
                                                     </td>
                                                     <td class="text-nowrap">
-                                                        {{ $item->total_permit . ' / ' . number_format($item->total_days, 0) . ' Hari' }}
+                                                        {{ $item->total_permit }}
                                                     </td>
                                                     <td class="text-nowrap">
-                                                        {{ $item->total_absent . ' / ' . number_format($item->total_days, 0) . ' Hari' }}
+                                                        {{ $item->total_absent }}
                                                     </td>
                                                     <td class="text-nowrap">{{ $item->working_hour . ' jam' }}</td>
                                                     <td class="text-nowrap">{{ $item->overtime . ' jam' }}</td>

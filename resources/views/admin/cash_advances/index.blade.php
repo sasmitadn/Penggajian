@@ -37,10 +37,12 @@
                                     class="btn btn-outline-primary ms-2">
                                     <i class="fa fa-file-excel"></i>
                                 </a>
-                                <a href="{{ route('admin.cash_advances.create') }}" class="btn btn-primary ms-2">
-                                    <i class="fa fa-plus"></i>
-                                    Tambah Data
-                                </a>
+                                @if (can_access(['admin.cash_advances.create', 'admin.cash_advances.store']))
+                                    <a href="{{ route('admin.cash_advances.create') }}" class="btn btn-primary ms-2">
+                                        <i class="fa fa-plus"></i>
+                                        Tambah Data
+                                    </a>
+                                @endif
                             </div>
                         </div>
                         <div class="card-body">
@@ -72,7 +74,6 @@
                                                                     $d->id_payroll != null);
                                                         })
                                                         ->count();
-                                                        
                                                 @endphp
                                                 <tr>
                                                     <td class="text-nowrap">{{ $item->user?->name }}</td>

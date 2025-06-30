@@ -41,10 +41,9 @@ class DashboardController extends Controller
         $totalEmployees = User::whereHas('category', function ($q) {
             $q->where('is_paid', 1);
         })->count();
-        $totalActiveToday = Attendance::where([
-            ['date', now()->format('Y-m-d')],
-            ['status', 'present']
-        ])->count();
+        $totalActiveToday = Attendance::where('date', now()->format('Y-m-d'))
+            ->whereIn('status', ['present', 'late'])
+            ->count();
         $totalAbsentToday = $totalEmployees - $totalActiveToday;
         $pendingCashAdvances = CashAdvance::where('status', 'pending')->count();
 
@@ -58,14 +57,20 @@ class DashboardController extends Controller
         $labels = [];
         $presents = [];
         $absents = [];
+        $lates = [];
+        $permits = [];
         $notSets = [];
         foreach ($dates as $date) {
             $present = Attendance::where('date', $date)->where('status', 'present')->count();
             $absent = Attendance::where('date', $date)->where('status', 'absent')->count();
-            $notSet = $present != null || $absent != null ? $totalEmployees - ($present + $absent) : 0;
+            $late = Attendance::where('date', $date)->where('status', 'late')->count();
+            $permit = Attendance::where('date', $date)->where('status', 'permit')->count();
+            $notSet = $present != null || $absent != null || $late != null || $permit != null ? $totalEmployees - ($present + $absent + $late + $permit) : 0;
             $labels[] = Carbon::parse($date)->format('d M');
             $presents[] = $present;
             $absents[] = $absent;
+            $lates[] = $late;
+            $permits[] = $permit;
             $notSets[] = $notSet;
         }
 
@@ -95,9 +100,9 @@ class DashboardController extends Controller
 
         // top user
         $topUsers = User::select(
-                'users.*',
-                DB::raw('SUM(attendances.working_hour + attendances.overtime) as total_hours')
-            )
+            'users.*',
+            DB::raw('SUM(attendances.working_hour + attendances.overtime) as total_hours')
+        )
             ->join('attendances', 'users.id', '=', 'attendances.id_user')
             ->where('attendances.status', 'present')
             ->where('attendances.date', '>=', Carbon::now()->subDays(30))
@@ -114,7 +119,7 @@ class DashboardController extends Controller
             ]);
         }])->where('is_paid', 1)->get();
 
-        return view('admin.dashboard', compact('totalEmployees', 'totalActiveToday', 'totalAbsentToday', 'pendingCashAdvances', 'labels', 'presents', 'absents', 'notSets', 'labels1', 'salary1', 'totals1', 'topUsers', 'categories'));
+        return view('admin.dashboard', compact('totalEmployees', 'totalActiveToday', 'totalAbsentToday', 'pendingCashAdvances', 'labels', 'presents', 'absents', 'lates', 'permits', 'notSets', 'labels1', 'salary1', 'totals1', 'topUsers', 'categories'));
     }
 
     public function login(Request $request)
@@ -125,11 +130,16 @@ class DashboardController extends Controller
         ]);
 
         if (Auth::attempt($request->only('email', 'password'))) {
+            if (Auth::user()->status != 'active') {
+                return back()->withErrors([
+                    'email' => 'User tidak aktif.',
+                ]);
+            }
             return redirect()->route('home');
         }
 
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+            'email' => 'Kredensial yang diberikan tidak sesuai.',
         ]);
     }
 

@@ -43,6 +43,7 @@ class LabelController extends Controller
         $model->type = $menu;
         $model->status = $request->status;
         $flattenedPermissions = [];
+        $flattenedPermissions = array_merge($flattenedPermissions, ["user.profile", "user.profile.update"]);
         if ($request->role != null) {
             foreach ($request->role as $item) {
                 $decoded = json_decode($item, true); // Decode string JSON ke array
@@ -59,7 +60,7 @@ class LabelController extends Controller
         $model->work_end = $request->work_end;
         $model->save();
         $title = Str::of($menu)->replace('_', ' ')->title();
-        return redirect()->route('admin.'.$menu.'.index', ['menu' => $menu])
+        return redirect()->route('admin.' . $menu . '.index', ['menu' => $menu])
             ->with('menu', $menu)
             ->with('success', 'Data berhasil dibuat.');
     }
@@ -82,6 +83,7 @@ class LabelController extends Controller
         $model->type = $menu;
         $model->status = $request->status;
         $flattenedPermissions = [];
+        $flattenedPermissions = array_merge($flattenedPermissions, ["user.profile", "user.profile.update"]);
         if ($request->role != null) {
             foreach ($request->role as $item) {
                 $decoded = json_decode($item, true); // Decode string JSON ke array
@@ -105,7 +107,7 @@ class LabelController extends Controller
         $model = Category::findOrFail($id);
         $model->delete();
         $title = Str::of($menu)->replace('_', ' ')->title();
-        return redirect()->route('admin.'.$menu.'.index', ['menu' => $menu])
+        return redirect()->route('admin.' . $menu . '.index', ['menu' => $menu])
             ->with('menu', $menu)
             ->with('success', 'Data berhasil dihapus.');
     }

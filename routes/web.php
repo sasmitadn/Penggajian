@@ -53,7 +53,6 @@ Route::middleware(['auth','checkUserRouteAccess'])->name('user.')->prefix('user'
     Route::get('/my_cash_advances/create', [UserCashAdvanceController::class, 'create'])->name('cash_advances.create');
     Route::post('/my_cash_advances/store', [UserCashAdvanceController::class, 'store'])->name('cash_advances.store');
     Route::get('/my_cash_advances/{id}', [UserCashAdvanceController::class, 'show'])->name('cash_advances.show');
-    Route::put('/my_cash_advances/update/{id}', [UserCashAdvanceController::class, 'update'])->name('cash_advances.update');
     Route::delete('/my_cash_advances/delete/{id}', [UserCashAdvanceController::class, 'destroy'])->name('cash_advances.delete');
     Route::get('/my_cash_advance/receipt/{id}', [UserCashAdvanceController::class, 'exportReceipt'])->name('cash_advances.export.receipt');
     
@@ -122,6 +121,7 @@ Route::middleware(['auth','checkUserRouteAccess'])->name('admin.')->prefix('admi
     Route::get('/report/attendances/export/{id_user}', [ReportController::class, 'attendanceDetailExport'])->name('reports.attendance.export.detail');
 
     Route::get('/report/salary', [ReportController::class, 'salary'])->name('reports.salary');
+    Route::get('/report/salary/export', [ReportController::class, 'salaryExport'])->name('reports.salary.export');
 });
 
 Route::get('/component/form-default/{index}', function ($index) {

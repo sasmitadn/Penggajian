@@ -49,6 +49,7 @@
                                             <th>Kehadiran</th>
                                             <th>Terlambat</th>
                                             <th>Izin</th>
+                                            <th>Tidak Hadir</th>
                                             <th>Total Jam Kerja</th>
                                             <th>Total Jam Lembur</th>
                                             <th>Avg. Jam Kerja</th>
@@ -62,9 +63,10 @@
                                                 <tr>
                                                     <td>{{ $item->user?->name }}</td>
                                                     <td>{{ $item->user?->category?->name }}</td>
-                                                    <td>{{ $item->total_present . '/' . $item->total_days }}</td>
+                                                    <td>{{ $item->total_present }}</td>
                                                     <td>{{ $item->total_late }}</td>
                                                     <td>{{ $item->total_permit }}</td>
+                                                    <td>{{ $item->total_absent }}</td>
                                                     <td class="text-nowrap">{{ parseNumber($item->total_working_hour, '0') . ' jam' }}</td>
                                                     <td class="text-nowrap">{{ parseNumber($item->total_overtime, '0') . ' jam' }}</td>
                                                     <td class="text-nowrap">{{ parseNumber($item->avg_working_hour, '0') . ' jam' }}</td>

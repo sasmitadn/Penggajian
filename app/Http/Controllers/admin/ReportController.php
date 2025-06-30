@@ -31,6 +31,7 @@ class ReportController extends Controller
                 COUNT(*) as total_days,
                 SUM(working_hour) as total_working_hour,
                 SUM(overtime) as total_overtime,
+                SUM(status = "absent") as total_absent,
                 ROUND(SUM(working_hour) / COUNT(*), 2) as avg_working_hour,
                 ROUND(SUM(overtime) / COUNT(*), 2) as avg_overtime,
                 COUNT(CASE WHEN status = "present" THEN 1 END) as total_present,
@@ -144,6 +145,9 @@ class ReportController extends Controller
         if ($request->filled('id_user')) {
             $query->where('id_user', $request->id_user);
         }
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            $query->whereBetween('start_date', [$request->start_date, $request->end_date]);
+        }
         $data = $query->with('user') // asumsi ada relasi ke user
             ->whereBetween('start_date', [$start_date, $end_date])
             ->orderBy(User::select('name')->whereColumn('users.id', 'payroll_details.id_user')) // sort by name
@@ -170,5 +174,57 @@ class ReportController extends Controller
             $item->total_permit = $totals->total_permit ?? 0;
         }
         return view('admin.reports.salary.index', compact('data', 'users', 'start_date', 'end_date', 'request'));
+    }
+
+        public function salaryExport(Request $request)
+    {
+        $start_date = $request->start_date ?? now()->startOfMonth()->format('Y-m-d');
+        $end_date = $request->end_date ?? now()->endOfMonth()->format('Y-m-d');
+        $users = User::where('status', 'active')->get();
+        $query = PayrollDetail::query();
+        if ($request->filled('id_user')) {
+            $query->where('id_user', $request->id_user);
+        }
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            $query->whereBetween('start_date', [$request->start_date, $request->end_date]);
+        }
+        $payrollDetails = $query->with('user') // asumsi ada relasi ke user
+            ->whereBetween('start_date', [$start_date, $end_date])
+            ->orderBy(User::select('name')->whereColumn('users.id', 'payroll_details.id_user')) // sort by name
+            ->orderBy('start_date')
+            ->get();
+        
+        $labels = [
+            'Tanggal Awal', 'Tanggal Akhir', 'Nama', 'Jabatan', 'Kehadiran', 'Terlambat', 'Izin', 'Tidak Hadir',
+            'Total Jam Kerja', 'Total Jam Lembur', 'Jumlah Gaji', 'Jumlah Lembur', 'Pengurangan Pinjaman', 'Total Gaji'
+        ];
+        $data = [];
+        foreach ($payrollDetails as $item) {
+            $totals = \App\Models\Attendance::where('id_user', $item->id_user)
+                ->whereBetween('date', [$item->start_date, $item->end_date])
+                ->selectRaw("
+                    SUM(working_hour) as working_hour,
+                    SUM(overtime) as overtime,
+                    SUM(status = 'present') as total_present,
+                    SUM(status = 'late') as total_late,
+                    SUM(status = 'absent') as total_absent,
+                    SUM(status = 'permit') as total_permit
+                ")
+                ->first();
+
+            $item->working_hour = $totals->working_hour;
+            $item->overtime = $totals->overtime;
+            $item->total_present = $totals->total_present ?? 0;
+            $item->total_late = $totals->total_late ?? 0;
+            $item->total_absent = $totals->total_absent ?? 0;
+            $item->total_permit = $totals->total_permit ?? 0;
+
+            $data[] = [
+                $item->start_date, $item->end_date, $item->user?->name, $item->user?->category?->name,
+                $item->total_present, $item->total_late, $item->total_permit, $item->total_absent,
+                $item->working_hour, $item->overtime, $item->amount_salary, $item->amount_overtime, $item->amount_deductions, $item->net_salary
+            ];
+        }
+        return Excel::download(new ExcelExport($labels, $data), 'laporan_gaji.xlsx');
     }
 }

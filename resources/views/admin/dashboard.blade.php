@@ -15,7 +15,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-6 col-md-3">
-                    <a href="{{ route('admin.users.index') }}">
+                    <a href="#">
                         <div class="card card-stats card-round">
                             <div class="card-body">
                                 <div class="row align-items-center">
@@ -36,7 +36,7 @@
                     </a>
                 </div>
                 <div class="col-sm-6 col-md-3">
-                    <a href="{{ route('admin.attendances.index', ['status' => 'present']) }}">
+                    <a href="#">
                         <div class="card card-stats card-round">
                             <div class="card-body">
                                 <div class="row align-items-center">
@@ -57,7 +57,7 @@
                     </a>
                 </div>
                 <div class="col-sm-6 col-md-3">
-                    <a href="{{ route('admin.attendances.index', ['status' => 'not_set']) }}">
+                    <a href="#">
                         <div class="card card-stats card-round">
                             <div class="card-body">
                                 <div class="row align-items-center">
@@ -78,7 +78,7 @@
                     </a>
                 </div>
                 <div class="col-sm-6 col-md-3">
-                    <a href="{{ route('admin.cash_advances.index', ['status' => 'pending']) }}">
+                    <a href="#">
                         <div class="card card-stats card-round">
                             <div class="card-body">
                                 <div class="row align-items-center">
@@ -290,21 +290,33 @@
             data: {
                 labels: {!! json_encode($labels) !!},
                 datasets: [{
-                        label: "Presents",
+                        label: "Hadir",
                         backgroundColor: "#59d05d",
                         borderColor: "#59d05d",
                         data: {!! json_encode($presents) !!},
                     },
                     {
-                        label: "Absents",
+                        label: "Tidak Hadir",
                         backgroundColor: "#fdaf4b",
                         borderColor: "#fdaf4b",
                         data: {!! json_encode($absents) !!},
                     },
                     {
+                        label: "Terlambat",
+                        backgroundColor: "#36b9cc",
+                        borderColor: "#36b9cc",
+                        data: {!! json_encode($lates) !!},
+                    },
+                    {
+                        label: "Izin",
+                        backgroundColor: "#f6c23e",
+                        borderColor: "#f6c23e",
+                        data: {!! json_encode($permits) !!},
+                    },
+                    {
                         label: "Not Set",
-                        backgroundColor: "#177dff",
-                        borderColor: "#177dff",
+                        backgroundColor: "#858796",
+                        borderColor: "#858796",
                         data: {!! json_encode($notSets) !!},
                     }
                 ],

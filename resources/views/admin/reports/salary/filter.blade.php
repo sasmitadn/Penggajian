@@ -14,6 +14,8 @@
             @csrf
             <x-form-search class="mb-3" name="id_user" label="User" selected="{{ $request->id_user }}"
                 :options="$users->pluck('name', 'id')" />
+            <x-form-default name="start_date" old="{{ $request->start_date }}" label="Pilih Tanggal" type="date" />
+            <x-form-default name="end_date" old="{{ $request->end_date }}" label="Pilih Tanggal" type="date" />
             <div class="form-group row">
                 <div class="col">
                     <button type="button" class="btn btn-outline-primary w-100"

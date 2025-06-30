@@ -35,19 +35,14 @@ class CashAdvanceController extends Controller
         $data = CashAdvanceDetail::where('id_cash_advances', $id)->paginate(Config::get('setting.pagination.per_page', 10));
         return view('user.cash_advances.detail', compact('data'));
     }
-
-    public function edit($id)
-    {
-        $data = CashAdvance::findOrFail($id);
-        $users = User::where('status', 'active')->get();
-        return view('user.cash_advances.edit', compact('data', 'users'));
-    }
+    
     public function destroy($id)
     {
         $model = CashAdvance::findOrFail($id);
         $model->delete();
         return back()->with('success', 'Data berhasil dihapus.');
     }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -79,20 +74,6 @@ class CashAdvanceController extends Controller
             $detail->save();
         }
         return redirect()->route('user.cash_advances.index')->with('success', 'Data berhasil dibuat.');
-    }
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'amount' => 'required|numeric',
-            'description' => 'required|string',
-            'date' => 'required|date',
-        ]);
-        $model = CashAdvance::findOrFail($id);
-        $model->amount = $request->amount;
-        $model->description = $request->description;
-        $model->date = $request->date;
-        $model->save();
-        return back()->with('success', 'Data berhasil diperbarui.');
     }
 
     public function exportReceipt(Request $request, $id)

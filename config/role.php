@@ -9,7 +9,7 @@ return [
     ],
     'Dashboard Saya' => [
         'create' => [],
-        'read' => ['user.dashboard', 'user.profile', 'user.profile.update'],
+        'read' => ['user.dashboard'],
         'update' => [],
         'delete' => []
     ],
@@ -38,7 +38,8 @@ return [
             'admin.reports.attendance.detail',
             'admin.reports.attendance.export',
             'admin.reports.attendance.export.detail',
-            'admin.reports.salary'
+            'admin.reports.salary',
+            'admin.reports.salary.export'
         ],
         'update' => [],
         'delete' => []
@@ -51,13 +52,13 @@ return [
     ],
     'Ajukan Pinjaman' => [
         'create' => ['user.cash_advances.create', 'user.cash_advances.store'],
-        'read' => ['user.cash_advances.index'],
-        'update' => ['user.cash_advances.edit', 'user.cash_advances.update'],
+        'read' => ['user.cash_advances.index', 'user.cash_advances.show', 'user.cash_advances.export.receipt'],
+        'update' => [],
         'delete' => ['user.cash_advances.delete']
     ],
     'Pinjaman Karyawan' => [
         'create' => ['admin.cash_advances.create', 'admin.cash_advances.store'],
-        'read' => ['admin.cash_advances.index', 'admin.cash_advances.show'],
+        'read' => ['admin.cash_advances.index', 'admin.cash_advances.show', 'admin.cash_advance.export.receipt', 'admin.cash_advance.export'],
         'update' => ['admin.cash_advances.edit', 'admin.cash_advances.update', 'admin.cash_advances.update.detail'],
         'delete' => ['admin.cash_advances.delete']
     ],

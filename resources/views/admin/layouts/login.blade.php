@@ -40,6 +40,31 @@
     <link rel="stylesheet" href="{{ asset('css/plugins.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/kaiadmin.min.css') }}" />
 
+    <style>
+        body {
+            background-image: url("{{ asset('img/bg-login.jpg') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* 0.5 = 50% gelap */
+            z-index: -1;
+        }
+    </style>
+
+
+
 </head>
 
 <body>

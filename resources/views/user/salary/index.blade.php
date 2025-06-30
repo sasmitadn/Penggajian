@@ -44,7 +44,7 @@
                                             <th>Nominal Lembur</th>
                                             <th>Potongan Gaji</th>
                                             <th>Total</th>
-                                            <th>Menu</th>
+                                            {{-- <th>Menu</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -67,12 +67,12 @@
                                                         {{ 'Rp. ' . parseNumber($item->amount_deductions, '0') }}</td>
                                                     <td class="text-nowrap">
                                                         {{ 'Rp. ' . number_format($item->net_salary, 0, '.', ',') }}</td>
-                                                    <td>
+                                                    {{-- <td>
                                                         <a class="btn btn-outline-primary"
                                                             href="{{ route('user.salary.receipt', [$item->id]) }}">
                                                             <i class="fas fa-receipt"></i>
                                                         </a>
-                                                    </td>
+                                                    </td> --}}
                                                 </tr>
                                             @endforeach
                                         @else
